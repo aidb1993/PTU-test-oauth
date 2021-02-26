@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('accessTokenExpiresAt');
             $table->string('refreshTokenExpiresAt');
             $table->string('realm_id');
+            $table->string('token_type');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -69,6 +69,7 @@ class QuickBookController extends Controller
             'accessTokenExpiresAt'  => $token->getAccessTokenExpiresAt(),
             'refreshTokenExpiresAt' => $token->getRefreshTokenExpiresAt(),
             'realm_id'              => '4620816365161736680',
+            'token_type'            => 'bearer'
         ]);
 
         return $user;
