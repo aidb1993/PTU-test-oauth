@@ -40,6 +40,19 @@ class QuickBookController extends Controller
         //
     }
 
+
+
+    public function refreshToken() 
+    {
+        $oauth2LoginHelper = new OAuth2LoginHelper(env('CLIENT_ID'),env('CLIENT_SECRET'));
+        $accessTokenObj = $oauth2LoginHelper->
+                    refreshAccessTokenWithRefreshToken(env('REFRESH_TOKEN_KEY'));
+        $accessTokenValue = $accessTokenObj->getAccessToken();
+        $refreshTokenValue = $accessTokenObj->getRefreshToken();
+
+        dd($accessTokenValue);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -58,17 +71,17 @@ class QuickBookController extends Controller
             'baseUrl'           => env('BASE_URL')
         ));
 
-        $loginHelper = new OAuth2LoginHelper('ABwVa031ISzemWRTUvC5E3xIxX1iy9VTCk4KfonWJIChFYFBNx', 'hBWDipA6gIydm6uSwkHGCskPRESVV6MhqSdHuymW');
-        $token = $loginHelper->refreshAccessTokenWithRefreshToken('AB11623006138TN3cFU5tU95HHHbvDliFVzW9O7lNML50iNVzP');
+        $loginHelper = new OAuth2LoginHelper(env('CLIENT_ID'), env('CLIENT_SECRET'));
+        $token = $loginHelper->refreshAccessTokenWithRefreshToken(env('REFRESH_TOKEN_KEY'));
 
         $user = User::create([
-            'client_id'             => 'ABwVa031ISzemWRTUvC5E3xIxX1iy9VTCk4KfonWJIChFYFBNx',
-            'client_secret'         => 'hBWDipA6gIydm6uSwkHGCskPRESVV6MhqSdHuymW',
+            'client_id'             => env('CLIENT_ID'),
+            'client_secret'         => env('CLIENT_SECRET'),
             'accessToken_key'       => $token->getAccessToken(),
             'refresh_token'         => $token->getRefreshToken(),
             'accessTokenExpiresAt'  => $token->getAccessTokenExpiresAt(),
             'refreshTokenExpiresAt' => $token->getRefreshTokenExpiresAt(),
-            'realm_id'              => '4620816365161736680',
+            'realm_id'              => env('QBO_REALM_ID') ,
             'token_type'            => 'bearer'
         ]);
 
