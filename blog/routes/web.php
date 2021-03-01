@@ -19,6 +19,8 @@ Route::get('/', 'QuickBookController@store');
 
 Route::get('create/new/token', 'QuickBookController@index');
 
+Route::get('refresh/new/token', 'QuickBookController@refreshToken');
+
 //Route::get('/', function () {
 
     // $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
