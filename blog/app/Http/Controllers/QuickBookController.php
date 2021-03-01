@@ -61,6 +61,7 @@ class QuickBookController extends Controller
         $loginHelper = new OAuth2LoginHelper('ABwVa031ISzemWRTUvC5E3xIxX1iy9VTCk4KfonWJIChFYFBNx', 'hBWDipA6gIydm6uSwkHGCskPRESVV6MhqSdHuymW');
         $token = $loginHelper->refreshAccessTokenWithRefreshToken('AB11623006138TN3cFU5tU95HHHbvDliFVzW9O7lNML50iNVzP');
 
+
         $user = User::create([
             'client_id'             => 'ABwVa031ISzemWRTUvC5E3xIxX1iy9VTCk4KfonWJIChFYFBNx',
             'client_secret'         => 'hBWDipA6gIydm6uSwkHGCskPRESVV6MhqSdHuymW',
