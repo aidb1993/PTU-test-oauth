@@ -15,17 +15,13 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('client_id');
-            $table->string('client_secret');
-            $table->text('accessToken_key');
-            $table->string('refresh_token');
-            $table->string('accessTokenExpiresAt');
-            $table->string('refreshTokenExpiresAt');
-            $table->string('realm_id');
-            $table->string('token_type');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-        });
+    });
     }
 
     /**

@@ -48,7 +48,7 @@ class QBOAuthController extends Controller
         ));
 
         $loginHelper = new OAuth2LoginHelper(env('CLIENT_ID'), env('CLIENT_SECRET'));
-        $token = $loginHelper->refreshAccessTokenWithRefreshToken(env('REFRESH_TOKEN_KEY'));
+        $token = $loginHelper->refreshAccessTokenWithRefreshToken($request['refresh_token']);
 
         $qboAuth = QBOAuth::create([
             'access_token' => $token->getAccessToken(),

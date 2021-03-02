@@ -16,8 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'client_id', 'client_secret', 'accessToken_key', 'refresh_token',
-        'accessTokenExpiresAt', 'refreshTokenExpiresAt','realm_id', 'token_type'
+        'name', 'email', 'password'
     ];
 
     /**

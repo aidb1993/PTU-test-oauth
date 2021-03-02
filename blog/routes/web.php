@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use QuickBooksOnline\API\DataService\DataService;
 use QuickBooksOnline\API\Core\OAuth\OAuth2\OAuth2LoginHelper;
 
@@ -15,15 +16,21 @@ use QuickBooksOnline\API\Core\OAuth\OAuth2\OAuth2LoginHelper;
 |
 */
 
-/* Route::get('/', 'QuickBookController@store');
+/* Route::get('/', 'QuickBookController@store');*/
 
-Route::get('create/new/token', 'QuickBookController@index');
+Route::get('create/new/token', 'QuickBookController@index')->middleware('auth');
 
-Route::get('refresh/new/token', 'QuickBookController@refreshToken'); */
+Route::get('refresh/new/token', 'QuickBookController@refreshToken');
 
-Route::get('/', 'QBOAuthController@store');
+Route::get('/', function() {
+    return view('/auth/login');
+})->middleware('auth');
 
+Auth::routes();
 
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('/qbo_auth', 'QBOAuthController@store');
 
 //Route::get('/', function () {
 
