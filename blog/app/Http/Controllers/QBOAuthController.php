@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\QBOAuth;
 use Illuminate\Http\Request;
 use QuickBooksOnline\API\DataService\DataService;
 use QuickBooksOnline\API\Core\OAuth\OAuth2\OAuth2LoginHelper;
 
-class QuickBookController extends Controller
+class QBOAuthController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,18 +16,7 @@ class QuickBookController extends Controller
      */
     public function index()
     {
-            $dataService = DataService::Configure(array(
-                'auth_mode'     => 'oauth2',
-                'ClientID'      => env('CLIENT_ID'),
-                'ClientSecret'  => env('CLIENT_SECRET'),
-                'RedirectURI'   => "https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl",
-                'scope'         => "com.intuit.quickbooks.accounting or com.intuit.quickbooks.payment",
-                'baseUrl'       => "Development/Production"
-          ));
-
-          $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
-          $authorizationCodeUrl = $OAuth2LoginHelper->getAuthorizationCodeURL();
-          header('Location: '.$authorizationCodeUrl);
+        //
     }
 
     /**
@@ -38,19 +27,6 @@ class QuickBookController extends Controller
     public function create()
     {
         //
-    }
-
-
-
-    public function refreshToken()
-    {
-        $oauth2LoginHelper = new OAuth2LoginHelper(env('CLIENT_ID'),env('CLIENT_SECRET'));
-        $accessTokenObj = $oauth2LoginHelper->
-                    refreshAccessTokenWithRefreshToken(env('REFRESH_TOKEN_KEY'));
-        $accessTokenValue = $accessTokenObj->getAccessToken();
-        $refreshTokenValue = $accessTokenObj->getRefreshToken();
-
-        dd($accessTokenValue);
     }
 
     /**
@@ -74,18 +50,15 @@ class QuickBookController extends Controller
         $loginHelper = new OAuth2LoginHelper(env('CLIENT_ID'), env('CLIENT_SECRET'));
         $token = $loginHelper->refreshAccessTokenWithRefreshToken(env('REFRESH_TOKEN_KEY'));
 
-        $user = User::create([
-            'client_id'             => env('CLIENT_ID'),
-            'client_secret'         => env('CLIENT_SECRET'),
-            'accessToken_key'       => $token->getAccessToken(),
-            'refresh_token'         => $token->getRefreshToken(),
-            'accessTokenExpiresAt'  => $token->getAccessTokenExpiresAt(),
-            'refreshTokenExpiresAt' => $token->getRefreshTokenExpiresAt(),
-            'realm_id'              => env('QBO_REALM_ID') ,
-            'token_type'            => 'bearer'
+        $qboAuth = QBOAuth::create([
+            'access_token' => $token->getAccessToken(),
+            'refresh_token' => $token->getRefreshToken(),
+            'x_refresh_token_expires_in' => $token->getRefreshTokenExpiresAt(),
+            'expires_in' => $token->getAccessTokenExpiresAt(),
+            'token_type' => 'bearer'
         ]);
 
-        return $user;
+        return response()->json(['data' => $qboAuth],200);
     }
 
     /**

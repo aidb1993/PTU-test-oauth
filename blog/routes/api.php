@@ -1,5 +1,6 @@
 <?php
 
+use App\QBOAuth;
 use Illuminate\Http\Request;
 
 /*
@@ -13,6 +14,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/test', function (Request $request) {
+    $qbo = QBOAuth::all();
+    return response()->json($qbo,200);
+    
+})->middleware('verifyAccessToken');

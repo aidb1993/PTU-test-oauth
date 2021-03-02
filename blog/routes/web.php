@@ -15,11 +15,15 @@ use QuickBooksOnline\API\Core\OAuth\OAuth2\OAuth2LoginHelper;
 |
 */
 
-Route::get('/', 'QuickBookController@store');
+/* Route::get('/', 'QuickBookController@store');
 
 Route::get('create/new/token', 'QuickBookController@index');
 
-Route::get('refresh/new/token', 'QuickBookController@refreshToken');
+Route::get('refresh/new/token', 'QuickBookController@refreshToken'); */
+
+Route::get('/', 'QBOAuthController@store');
+
+
 
 //Route::get('/', function () {
 
