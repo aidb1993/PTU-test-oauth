@@ -10,6 +10,6 @@ class QBOAuth extends Model
     protected $table = "qbo_auths";
 
     protected $fillable = [
-        'access_token','refresh_token','x_refresh_token_expires_in','expires_in','token_type'
+        'access_token','refresh_token','x_refresh_token_expires_in','expires_in','token_type', 'user_id', 'realm_id'
     ];
 }

@@ -20,6 +20,7 @@ class CreateQBOAuthsTable extends Migration
             $table->datetime('x_refresh_token_expires_in');
             $table->datetime('expires_in');
             $table->string('token_type');
+            $table->string('realm_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

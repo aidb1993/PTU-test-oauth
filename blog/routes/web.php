@@ -23,30 +23,11 @@ Route::get('create/new/token', 'QuickBookController@index')->middleware('auth');
 Route::get('refresh/new/token', 'QuickBookController@refreshToken');
 
 Route::get('/', function() {
-    return view('/auth/login');
+    return redirect('home');
 })->middleware('auth');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verifyAccessToken');
 
 Route::post('/qbo_auth', 'QBOAuthController@store');
-
-//Route::get('/', function () {
-
-    // $OAuth2LoginHelper = $dataService->getOAuth2LoginHelper();
-    // $accessTokenValue = $OAuth2LoginHelper->getAccessToken();
-    // dd($accessTokenValue);
-    // $refreshedAccessTokenObj = $OAuth2LoginHelper->refreshToken();
-    // $error = $OAuth2LoginHelper->getLastError();
-    // if($error){
-    //     return $error;
-    // }else{
-    //     //Refresh Token is called successfully
-    //    $refresh = $dataService->updateOAuth2Token($refreshedAccessTokenObj);
-
-    // }
-
-    // $dataService->FindById("Invoice", 1);
-
-//});

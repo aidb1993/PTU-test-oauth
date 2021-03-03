@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\QBOAuth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use QuickBooksOnline\API\DataService\DataService;
 use QuickBooksOnline\API\Core\OAuth\OAuth2\OAuth2LoginHelper;
 
@@ -49,16 +50,18 @@ class QBOAuthController extends Controller
 
         $loginHelper = new OAuth2LoginHelper(env('CLIENT_ID'), env('CLIENT_SECRET'));
         $token = $loginHelper->refreshAccessTokenWithRefreshToken($request['refresh_token']);
-
+        $id = Auth::id();
         $qboAuth = QBOAuth::create([
-            'access_token' => $token->getAccessToken(),
-            'refresh_token' => $token->getRefreshToken(),
-            'x_refresh_token_expires_in' => $token->getRefreshTokenExpiresAt(),
-            'expires_in' => $token->getAccessTokenExpiresAt(),
-            'token_type' => 'bearer'
+            'access_token'                  => $token->getAccessToken(),
+            'refresh_token'                 => $token->getRefreshToken(),
+            'x_refresh_token_expires_in'    => $token->getRefreshTokenExpiresAt(),
+            'expires_in'                    => $token->getAccessTokenExpiresAt(),
+            'token_type'                    => 'bearer',
+            'user_id'                       => $id,
+            'realm_id'                      => env('QBO_REALM_ID'),
         ]);
 
-        return response()->json(['data' => $qboAuth],200);
+        return redirect('/home');
     }
 
     /**
